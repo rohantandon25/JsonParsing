@@ -1,0 +1,52 @@
+# JsonParsing
+Parsing JSON Objects using Python
+
+This README describes how to run the program as well approach to solve the problem. It also suggests improvements in the code.
+
+How to run TakeHome.py:
+
+1. Please run the TakeHome.py class from the command line by opening a terminal/command prompt session.
+2. For example if you save the file in the "Downloads" directory:
+    cd /Users/Downloads/src/main
+    python TakeHome.py
+3. This is show the feed as the output and result of running the sample transfer given in the assignment prompt.
+
+Design:
+1. Converted the JSON objects into business objects like User, UserDescription, Transfer, TransferDescription etc.
+
+2. Created dictionaries of these business objects. Example, users is a dictionary having key as User (user id) and value to be UserDescription.
+
+3. get_transfers(), get_users() and get_accounts() populates the transfers and users dictionaries respectively by making GET requests.
+
+4. get_transfer_list() creates the social feed:
+    For each transaction:
+      For each user:
+        Get the user's accounts
+        For every account in the user's account list:
+          Save the user's name if the user's account it is mentioned in the transfer
+    Create a feed object with the transfer's sender, receivers name as well as amount and description.
+
+5. execute_transfer() executes a transfer message:
+    First, fetches the account objects for the sender and receivers using the account id from accounts dictionary.
+    Secondly, fetches the users objects for the sender and receiver from the users dictionary.
+    Checks if the sender's account has enough money:
+      If so, do the transaction and update the account balances.
+    Then creates a TransferDescription object depending on if the transfer was a success.
+    Finally, updates the transfers dictionary with the new transfer and adds the new transfer to each of the users's transfers list.
+
+    Returns TransferDescription object
+
+
+Testing:
+If I had more time I would write these unit tests:
+
+1. testSocialFeedAccuracy(): A test to check whether social feed has the correct transactions between people i.e. asserting there should be a feed object
+                              having originName, destinationName as Larry, Lizzie respectively if there is a transfer between those two users.
+
+2. testAddTransferToUsersHistory(): After running execute_transfer(), check whether the new transfer has been added to both the user's transfers list.
+
+Improvements:
+1. Simpler creation of dictionaries to store the JSON objects instead of having User and User Description etc.
+2. Would have added a "likes" field to feed object but I did not understand how to find the total number of likes for a transfer from the resources.
+3. Better organization of classes.
+
